@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
 
 public class ITNoteApp extends JFrame {
     private JPanel contentPanel;
@@ -37,7 +38,32 @@ public class ITNoteApp extends JFrame {
             contentPanel.revalidate();
         });
 
-        // 기타 저장, PDF 내보내기 이벤트 구현 필요
+        // 저장(.txt) 버튼 이벤트
+        saveBtn.addActionListener(e -> saveToTxt());
+
+        // PDF 내보내기 기능은 미구현
+    }
+
+    // .txt 파일로 저장하는 메소드
+    private void saveToTxt() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("저장할 파일 선택");
+        int userSelection = fileChooser.showSaveDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave))) {
+                for (Component comp : contentPanel.getComponents()) {
+                    if (comp instanceof JTextArea) {
+                        writer.write(((JTextArea) comp).getText());
+                        writer.write("\n\n");
+                    }
+                }
+                // 저장 완료 알림
+                JOptionPane.showMessageDialog(this, "저장 완료!", "알림", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "저장 실패: " + ex.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     public static void main(String[] args) {
