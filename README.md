@@ -90,3 +90,6 @@ IT 계열 학문에서는 단순한 문장 필기 외에도 코드, 알고리즘
 
 ---
 
+
+알고리즘 순서도
+![[attachments/figma flowchart.png]]

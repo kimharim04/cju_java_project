@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "6f5eaa116cb78870",
+        "id": "702bec411033cb1d",
         "type": "tabs",
         "children": [
           {
-            "id": "6e1d865884639bc0",
+            "id": "41cec53c768fc5f4",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -168,6 +168,13 @@
       "command-palette:명령어 팔레트 열기": false
     }
   },
-  "active": "7d2933ef132bcac6",
-  "lastOpenFiles": []
+  "active": "41cec53c768fc5f4",
+  "lastOpenFiles": [
+    "README.md",
+    "attachments/figma flowchart.png",
+    "attachments/Pasted image 20250611202852.png",
+    "attachments",
+    "새 폴더",
+    "Pasted image 20250611202852.png"
+  ]
 }
