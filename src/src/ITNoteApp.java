@@ -51,6 +51,12 @@ public class ITNoteApp extends JFrame {
         int userSelection = fileChooser.showSaveDialog(this);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
+
+            // 기본 확장자 .txt 추가
+            if (!fileToSave.getName().toLowerCase().endsWith(".txt")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".txt");
+            }
+
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave))) {
                 for (Component comp : contentPanel.getComponents()) {
                     if (comp instanceof JTextArea) {
@@ -65,6 +71,7 @@ public class ITNoteApp extends JFrame {
             }
         }
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new ITNoteApp().setVisible(true));
