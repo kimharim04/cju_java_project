@@ -5,7 +5,7 @@ import java.io.*;
 
 public class ITNoteApp extends JFrame {
     private JPanel contentPanel;
-    private JButton addCodeBoxBtn, saveBtn, exportPdfBtn;
+    private JButton addCodeBoxBtn, saveBtn;
 
     public ITNoteApp() {
         setTitle("IT계열 친화적 필기노트");
@@ -19,12 +19,10 @@ public class ITNoteApp extends JFrame {
 
         addCodeBoxBtn = new JButton("코드박스 추가");
         saveBtn = new JButton("저장(.txt)");
-        exportPdfBtn = new JButton("PDF 내보내기");
 
         JPanel topPanel = new JPanel();
         topPanel.add(addCodeBoxBtn);
         topPanel.add(saveBtn);
-        topPanel.add(exportPdfBtn);
 
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
@@ -40,8 +38,6 @@ public class ITNoteApp extends JFrame {
 
         // 저장(.txt) 버튼 이벤트
         saveBtn.addActionListener(e -> saveToTxt());
-
-        // PDF 내보내기 기능은 미구현
     }
 
     // .txt 파일로 저장하는 메소드
@@ -71,7 +67,6 @@ public class ITNoteApp extends JFrame {
             }
         }
     }
-
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new ITNoteApp().setVisible(true));
