@@ -27,17 +27,36 @@ public class ITNoteApp extends JFrame {
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 
-        // 코드박스 추가 이벤트
-        addCodeBoxBtn.addActionListener(e -> {
-            JTextArea codeArea = new JTextArea(8, 60);
-            codeArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
-            codeArea.setBorder(BorderFactory.createTitledBorder("Code"));
-            contentPanel.add(codeArea);
-            contentPanel.revalidate();
-        });
+        // 시작 시 일반 텍스트 박스 하나 추가
+        addTextBox();
 
-        // 저장(.txt) 버튼 이벤트
+        // 코드박스 추가 이벤트
+        addCodeBoxBtn.addActionListener(e -> addCodeBox());
+
+        // 저장 버튼 이벤트
         saveBtn.addActionListener(e -> saveToTxt());
+    }
+
+    // 일반 텍스트 필기 영역 추가
+    private void addTextBox() {
+        JTextArea textArea = new JTextArea(10, 60);
+        textArea.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        textArea.setBorder(BorderFactory.createTitledBorder("Note"));
+        contentPanel.add(textArea);
+    }
+
+    // 코드 박스 추가
+    private void addCodeBox() {
+        JTextArea codeArea = new JTextArea(8, 60);
+        codeArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        codeArea.setBorder(BorderFactory.createTitledBorder("Code"));
+        contentPanel.add(codeArea);
+
+        // 코드박스 뒤에는 다시 일반 텍스트 박스가 오도록 설정
+        addTextBox();
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
     // .txt 파일로 저장하는 메소드
@@ -48,19 +67,24 @@ public class ITNoteApp extends JFrame {
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             File fileToSave = fileChooser.getSelectedFile();
 
-            // 기본 확장자 .txt 추가
             if (!fileToSave.getName().toLowerCase().endsWith(".txt")) {
                 fileToSave = new File(fileToSave.getAbsolutePath() + ".txt");
             }
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave))) {
                 for (Component comp : contentPanel.getComponents()) {
-                    if (comp instanceof JTextArea) {
-                        writer.write(((JTextArea) comp).getText());
-                        writer.write("\n\n");
+                    if (comp instanceof JTextArea textArea) {
+                        String title = ((javax.swing.border.TitledBorder) textArea.getBorder()).getTitle();
+                        if (title.equals("Code")) {
+                            writer.write("(code)-----------\n");
+                            writer.write(textArea.getText());
+                            writer.write("\n-----------\n\n");
+                        } else {
+                            writer.write(textArea.getText());
+                            writer.write("\n\n");
+                        }
                     }
                 }
-                // 저장 완료 알림
                 JOptionPane.showMessageDialog(this, "저장 완료!", "알림", JOptionPane.INFORMATION_MESSAGE);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "저장 실패: " + ex.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
@@ -72,3 +96,4 @@ public class ITNoteApp extends JFrame {
         SwingUtilities.invokeLater(() -> new ITNoteApp().setVisible(true));
     }
 }
+
